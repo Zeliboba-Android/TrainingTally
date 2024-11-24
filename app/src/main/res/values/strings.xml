@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Training Tally</string>
+    <string name="date">24.11.2024</string>
+    <string name="add_training_item_content_description">add_shop_item_content_description</string>
+    <string name="exercise">Тяга верхнего блока</string>
 </resources>
