@@ -17,4 +17,7 @@ interface TrainingListDao {
 
     @Query("SELECT * FROM training_items WHERE id=:trainingItemId LIMIT 1")
     fun getTrainingItem(trainingItemId: Int):TrainingItemDbModel
+
+    @Query("DELETE FROM training_items WHERE id=:trainingItemId")
+    fun deleteTrainingItem(trainingItemId: Int)
 }

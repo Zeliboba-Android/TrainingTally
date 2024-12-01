@@ -11,6 +11,6 @@ data class TrainingItem(
     var id: Int = UNDEFINED_ID
 ) {
     companion object {
-        var UNDEFINED_ID = -1
+        var UNDEFINED_ID = 0
     }
 }
