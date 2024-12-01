@@ -29,6 +29,16 @@
         android:background="@color/white"
         android:layout_marginTop="16dp" />
 
+    <EditText
+        android:id="@+id/etWorkoutDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Дата тренировки"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:background="@color/white"
+        android:layout_marginTop="16dp" />
+
     <!-- Поле для описания тренировки -->
     <EditText
         android:id="@+id/etWorkoutDescription"
