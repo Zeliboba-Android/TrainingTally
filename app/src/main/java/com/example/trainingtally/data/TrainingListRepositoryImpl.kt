@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.trainingtally.domain.TrainingItem
 import com.example.trainingtally.domain.TrainingListRepository
+import kotlinx.coroutines.runBlocking
 
 class TrainingListRepositoryImpl(application: Application) : TrainingListRepository {
 
@@ -12,27 +13,35 @@ class TrainingListRepositoryImpl(application: Application) : TrainingListReposit
     private val mapper = TrainingListMapper()
 
     override suspend fun addTrainingItem(trainingItem: TrainingItem) {
-        trainingListDao.addTrainingItem(mapper.mapEntityToDbModel(trainingItem))
+        val trainingId = trainingListDao.addTrainingItem(mapper.mapEntityToDbModel(trainingItem))
+        val exerciseDbModels = trainingItem.exercises.map { mapper.mapExerciseEntityToDbModel(it, trainingId.toString().toInt()) }
+        trainingListDao.addExercises(exerciseDbModels)
     }
 
     override suspend fun editingTrainingItem(trainingItem: TrainingItem) {
-        trainingListDao.addTrainingItem(mapper.mapEntityToDbModel(trainingItem))
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteTrainingItem(trainingItem: TrainingItem) {
+        trainingListDao.deleteExercisesForTraining(trainingItem.id)
         trainingListDao.deleteTrainingItem(trainingItem.id)
     }
 
     override suspend fun getTrainingItem(trainingItemId: Int): TrainingItem {
-        val dbModel = trainingListDao.getTrainingItem(trainingItemId)
-        return mapper.mapDbModelToEntity(dbModel)
+        val trainingDbModel = trainingListDao.getTrainingItem(trainingItemId)
+        val exercisesDbModels = trainingListDao.getExercisesForTraining(trainingItemId)
+        val exercises = exercisesDbModels.map { mapper.mapExerciseDbModelToEntity(it) }
+        return mapper.mapDbModelToEntity(trainingDbModel, exercises)
     }
 
     override fun getTrainingList(): LiveData<List<TrainingItem>> = MediatorLiveData<List<TrainingItem>>().apply {
-        addSource(trainingListDao.getTrainingList()){
-            value = mapper.mapDbModelToListEntity(it)
+        addSource(trainingListDao.getTrainingList()) { trainingItemsDb ->
+            value = trainingItemsDb.map { trainingDbModel ->
+                val exercises = runBlocking {
+                    trainingListDao.getExercisesForTraining(trainingDbModel.id)
+                }.map { mapper.mapExerciseDbModelToEntity(it) }
+                mapper.mapDbModelToEntity(trainingDbModel, exercises)
+            }
+        }
     }
-    }
-
-
 }

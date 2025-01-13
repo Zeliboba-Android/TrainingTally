@@ -27,6 +27,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        dataBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,13 +37,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
+    implementation (libs.androidx.lifecycle.livedata.ktx) // Для LiveData
+    implementation (libs.androidx.lifecycle.viewmodel.ktx) // Для ViewModel
+    implementation (libs.androidx.room.ktx)
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
     kapt (libs.androidx.room.compiler)
+    implementation (libs.androidx.recyclerview)
     implementation (libs.androidx.room.runtime)
     annotationProcessor (libs.androidx.room.compiler)
     implementation(libs.androidx.core.ktx)

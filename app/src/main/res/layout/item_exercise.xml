@@ -33,7 +33,6 @@
             android:id="@+id/et_exercise_approaches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=""
             android:autofillHints=""
             android:inputType=""
             android:text="4"

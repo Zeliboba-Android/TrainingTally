@@ -9,7 +9,14 @@ data class TrainingItemDbModel(
     val id: Int,
     val name: String,
     val date: String,
-    val description: String,
+    val description: String
+)
+
+@Entity(tableName = "exercises")
+data class ExerciseDbModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val trainingId: Int, // Внешний ключ, связывающий упражнение с тренировкой
     val exerciseName: String,
     val exerciseApproaches: String,
     val exerciseSets: String,

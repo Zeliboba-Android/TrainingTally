@@ -4,13 +4,16 @@ data class TrainingItem(
     val name: String,
     val date: String,
     val description: String,
-    val exerciseName: String,
-    val exerciseApproaches: String,
-    val exerciseSets: String,
-    val weight: String,
+    val exercises: List<Exercise>,
     var id: Int = UNDEFINED_ID
 ) {
     companion object {
         var UNDEFINED_ID = 0
     }
 }
+data class Exercise(
+    val exerciseName: String,
+    val approaches: String,
+    val sets: String,
+    val weight: String
+)

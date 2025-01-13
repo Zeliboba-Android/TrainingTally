@@ -1,33 +1,43 @@
 package com.example.trainingtally.data
 
+import com.example.trainingtally.domain.Exercise
 import com.example.trainingtally.domain.TrainingItem
 
 class TrainingListMapper {
 
+    // Маппинг тренировок
     fun mapEntityToDbModel(trainingItem: TrainingItem) = TrainingItemDbModel(
         id = trainingItem.id,
         name = trainingItem.name,
         date = trainingItem.date,
-        description = trainingItem.description,
-        exerciseName = trainingItem.exerciseName,
-        exerciseApproaches = trainingItem.exerciseApproaches,
-        exerciseSets = trainingItem.exerciseSets,
-        weight = trainingItem.weight
+        description = trainingItem.description
     )
 
-    fun mapDbModelToEntity(trainingItemDbModel: TrainingItemDbModel) = TrainingItem(
+    fun mapDbModelToEntity(
+        trainingItemDbModel: TrainingItemDbModel,
+        exercises: List<Exercise>
+    ) = TrainingItem(
         id = trainingItemDbModel.id,
         name = trainingItemDbModel.name,
         date = trainingItemDbModel.date,
         description = trainingItemDbModel.description,
-        exerciseName = trainingItemDbModel.exerciseName,
-        exerciseApproaches = trainingItemDbModel.exerciseApproaches,
-        exerciseSets = trainingItemDbModel.exerciseSets,
-        weight = trainingItemDbModel.weight
+        exercises = exercises
     )
 
-    fun mapDbModelToListEntity(list: List<TrainingItemDbModel>) = list.map {
-        mapDbModelToEntity(it)
-    }
+    // Маппинг упражнений
+    fun mapExerciseEntityToDbModel(exercise: Exercise, trainingId: Int) = ExerciseDbModel(
+        id = 0, // ID генерируется автоматически
+        trainingId = trainingId,
+        exerciseName = exercise.exerciseName,
+        exerciseApproaches = exercise.approaches,
+        exerciseSets = exercise.sets,
+        weight = exercise.weight
+    )
 
+    fun mapExerciseDbModelToEntity(exerciseDbModel: ExerciseDbModel) = Exercise(
+        exerciseName = exerciseDbModel.exerciseName,
+        approaches = exerciseDbModel.exerciseApproaches,
+        sets = exerciseDbModel.exerciseSets,
+        weight = exerciseDbModel.weight
+    )
 }
